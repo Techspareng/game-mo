@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moxo - Play, Watch, Earn</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #6366f1;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .input-field:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white shadow-md z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-indigo-600 font-bold text-2xl">Moxo</span>
+                    </div>
+                    <div class="hidden md:ml-6 md:flex md:space-x-8">
+                        <a href="#home" class="nav-link text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">Home</a>
+                        <a href="#about" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">About</a>
+                        <a href="#features" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">Features</a>
+                        <a href="#contact" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <button onclick="openModal('login-modal')" class="text-indigo-600 hover:text-indigo-800 px-3 py-1 text-sm font-medium">Login</button>
+                    <button onclick="openModal('signup-modal')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300">Sign Up</button>
+                </div>
+                <div class="-mr-2 flex items-center md:hidden">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="#home" class="block pl-3 pr-4 py-2 border-l-4 border-indigo-500 text-base font-medium text-indigo-700">Home</a>
+                <a href="#about" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:border-gray-300">About</a>
+                <a href="#features" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:border-gray-300">Features</a>
+                <a href="#contact" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:border-gray-300">Contact</a>
+                <div class="pt-4 pb-2 px-4 space-y-2">
+                    <button onclick="openModal('login-modal')" class="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-indigo-600 hover:text-indigo-800 hover:bg-indigo-50">Login</button>
+                    <button onclick="openModal('signup-modal')" class="w-full block px-3 py-2 rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-24 pb-20 hero-gradient text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+                <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left fade-in">
+                    <h1 class="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl">
+                        <span class="block">Play Games. Watch Videos.</span>
+                        <span class="block text-indigo-200">Earn Money.</span>
+                    </h1>
+                    <p class="mt-3 text-base text-indigo-100 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                        Moxo is the ultimate platform where entertainment meets earnings. Complete daily tasks, engage with content, and get rewarded.
+                    </p>
+                    <div class="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
+                        <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                            <button onclick="openModal('signup-modal')" class="px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition duration-300 transform hover:scale-105">
+                                Get Started
+                            </button>
+                            <button onclick="scrollToSection('features')" class="px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-500 bg-opacity-60 hover:bg-opacity-70 md:py-4 md:text-lg md:px-10 transition duration-300 transform hover:scale-105">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center fade-in">
+                    <div class="relative mx-auto w-full rounded-lg shadow-lg lg:max-w-md">
+                        <div class="relative block w-full bg-white rounded-lg overflow-hidden">
+                            <img class="w-full" src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80" alt="Moxo platform">
+                            <div class="absolute inset-0 bg-indigo-600 bg-opacity-30"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="bg-white rounded-full p-4 shadow-xl transform rotate-12">
+                                    <span class="text-indigo-600 text-2xl font-bold">$0.50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center fade-in">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    How It Works
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Start earning with these simple steps on Moxo
+                </p>
+            </div>
+
+            <div class="mt-16 grid gap-16 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-12">
+                <div class="bg-gray-50 p-8 rounded-xl card-hover transition duration-300 fade-in">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                        <i class="fas fa-gamepad text-xl"></i>
+                    </div>
+                    <div class="mt-6">
+                        <h3 class="text-lg font-medium text-gray-900">Play Games</h3>
+                        <p class="mt-2 text-base text-gray-500">
+                            Enjoy a variety of fun games and earn points for every minute you play. The more you play, the more you earn!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-xl card-hover transition duration-300 fade-in">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                        <i class="fas fa-video text-xl"></i>
+                    </div>
+                    <div class="mt-6">
+                        <h3 class="text-lg font-medium text-gray-900">Watch Videos</h3>
+                        <p class="mt-2 text-base text-gray-500">
+                            Watch entertaining videos and get rewarded for your time. Discover new content while earning money.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-xl card-hover transition duration-300 fade-in">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                        <i class="fas fa-tasks text-xl"></i>
+                    </div>
+                    <div class="mt-6">
+                        <h3 class="text-lg font-medium text-gray-900">Complete Tasks</h3>
+                        <p class="mt-2 text-base text-gray-500">
+                            Simple daily tasks that earn you extra points. Complete them regularly to maximize your earnings.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-xl card-hover transition duration-300 fade-in">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                        <i class="fas fa-gift text-xl"></i>
+                    </div>
+                    <div class="mt-6">
+                        <h3 class="text-lg font-medium text-gray-900">Daily Rewards</h3>
+                        <p class="mt-2 text-base text-gray-500">
+                            Log in daily to claim your bonus rewards. Consistent users get special bonuses and higher earning rates.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-xl card-hover transition duration-300 fade-in">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                        <i class="fas fa-users text-xl"></i>
+                    </div>
+                    <div class="mt-6">
+                        <h3 class="text-lg font-medium text-gray-900">Refer Friends</h3>
+                        <p class="mt-2 text-base text-gray-500">
+                            Invite friends to join Moxo and earn a percentage of their earnings. Grow your income by building your network.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-xl card-hover transition duration-300 fade-in">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                        <i class="fas fa-wallet text-xl"></i>
+                    </div>
+                    <div class="mt-6">
+                        <h3 class="text-lg font-medium text-gray-900">Cash Out</h3>
+                        <p class="mt-2 text-base text-gray-500">
+                            Redeem your earnings via PayPal, gift cards, or cryptocurrency. Low minimum payout thresholds.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-indigo-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-8 rounded-xl shadow-sm fade-in">
+                    <div class="text-5xl font-bold text-indigo-600">10K+</div>
+                    <div class="mt-2 text-gray-600">Active Users</div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-sm fade-in">
+                    <div class="text-5xl font-bold text-indigo-600">$50K+</div>
+                    <div class="mt-2 text-gray-600">Paid Out</div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-sm fade-in">
+                    <div class="text-5xl font-bold text-indigo-600">1M+</div>
+                    <div class="mt-2 text-gray-600">Tasks Completed</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+                <div class="lg:col-span-5 fade-in">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        About Moxo
+                    </h2>
+                    <p class="mt-3 text-lg text-gray-500">
+                        Our mission is to create a platform where users can enjoy their time online while earning real rewards.
+                    </p>
+                    <div class="mt-8">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Our Vision</h3>
+                                <p class="mt-2 text-base text-gray-500">
+                                    To revolutionize the way people interact with digital content by creating a mutually beneficial ecosystem.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-8 flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Our Approach</h3>
+                                <p class="mt-2 text-base text-gray-500">
+                                    We partner with advertisers who want to reach engaged audiences, and share the revenue with our users.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 lg:mt-0 lg:col-span-7 fade-in">
+                    <div class="bg-gray-50 rounded-lg shadow-xl overflow-hidden">
+                        <div class="px-6 py-8 sm:p-10 sm:pb-6">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-2xl font-extrabold text-gray-900 sm:text-3xl">
+                                    Why Choose Moxo?
+                                </h3>
+                                <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded">BETA</span>
+                            </div>
+                            <div class="mt-6 space-y-6">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3 text-base text-gray-500">
+                                        <p>Legitimate earning opportunities with real payouts</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3 text-base text-gray-500">
+                                        <p>Multiple withdrawal options including PayPal and crypto</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3 text-base text-gray-500">
+                                        <p>Low $5 minimum payout threshold</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3 text-base text-gray-500">
+                                        <p>24/7 customer support</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3 text-base text-gray-500">
+                                        <p>Secure and transparent platform</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 py-8 bg-gray-100 sm:px-10">
+                            <div class="text-center">
+                                <button onclick="openModal('signup-modal')" class="px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10 transition duration-300 transform hover:scale-105">
+                                    Join Now - It's Free
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-indigo-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center fade-in">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    What Our Users Say
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Don't just take our word for it - hear from our community
+                </p>
+            </div>
+
+            <div class="mt-16 grid gap-8 lg:grid-cols-3">
+                <div class="bg-white p-8 rounded-xl shadow-sm fade-in">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <img class="h-12 w-12 rounded-full" src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah J.">
+                        </div>
+                        <div class="ml-4">
+                            <div class="text-lg font-medium text-gray-900">Sarah J.</div>
+                            <div class="text-indigo-600">Student</div>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-gray-600">
+                        <p>"I've earned over $200 in just two months by playing games in my free time. It's so easy and the payouts are real!"</p>
+                    </div>
+                    <div class="mt-4 flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-sm fade-in">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <img class="h-12 w-12 rounded-full" src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael T.">
+                        </div>
+                        <div class="ml-4">
+                            <div class="text-lg font-medium text-gray-900">Michael T.</div>
+                            <div class="text-indigo-600">Freelancer</div>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-gray-600">
+                        <p>"As someone who watches a lot of videos anyway, getting paid for it is amazing. The referral program is also great for extra income."</p>
+                    </div>
+                    <div class="mt-4 flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-sm fade-in">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <img class="h-12 w-12 rounded-full" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emma R.">
+                        </div>
+                        <div class="ml-4">
+                            <div class="text-lg font-medium text-gray-900">Emma R.</div>
+                            <div class="text-indigo-600">Stay-at-home Mom</div>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-gray-600">
+                        <p>"I use Moxo during my kids' nap times. It's fun, easy, and I've made enough for our family's monthly streaming subscriptions."</p>
+                    </div>
+                    <div class="mt-4 flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+                <div class="lg:col-span-5 fade-in">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        Contact Us
+                    </h2>
+                    <p class="mt-3 text-lg text-gray-500">
+                        Have questions? We're here to help! Reach out to our support team.
+                    </p>
+                    <div class="mt-8">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Email</h3>
+                                <p class="mt-2 text-base text-gray-500">
+                                    support@moxo.com
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-8 flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Live Chat</h3>
+                                <p class="mt-2 text-base text-gray-500">
+                                    Available 24/7 in your account dashboard
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-8 flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                    <i class="fab fa-twitter"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Twitter</h3>
+                                <p class="mt-2 text-base text-gray-500">
+                                    @MoxoSupport
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 lg:mt-0 lg:col-span-7 fade-in">
+                    <div class="bg-gray-50 rounded-lg shadow-xl overflow-hidden">
+                        <div class="px-6 py-8 sm:p-10 sm:pb-6">
+                            <h3 class="text-2xl font-extrabold text-gray-900 sm:text-3xl">
+                                Send Us a Message
+                            </h3>
+                            <form class="mt-8 space-y-6">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                                    <div class="mt-1">
+                                        <input id="name" name="name" type="text" required class="input-field py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                    <div class="mt-1">
+                                        <input id="email" name="email" type="email" required class="input-field py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                                    <div class="mt-1">
+                                        <select id="subject" name="subject" class="input-field py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                                            <option>General Inquiry</option>
+                                            <option>Account Support</option>
+                                            <option>Payment Issue</option>
+                                            <option>Feature Request</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                                    <div class="mt-1">
+                                        <textarea id="message" name="message" rows="4" class="input-field py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"></textarea>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300">
+                                        Send Message
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 hero-gradient text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in">
+            <h2 class="text-3xl font-extrabold sm:text-4xl">
+                Ready to Start Earning?
+            </h2>
+            <p class="mt-4 max-w-2xl text-xl mx-auto">
+                Join thousands of users who are already making money with Moxo
+            </p>
+            <div class="mt-8">
+                <button onclick="openModal('signup-modal')" class="px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition duration-300 transform hover:scale-105">
+                    Sign Up Free
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <span class="text-white font-bold text-2xl">Moxo</span>
+                    <p class="mt-4 text-gray-300 text-sm">
+                        The ultimate platform where entertainment meets earnings. Play games, watch videos, complete tasks, and get paid.
+                    </p>
+                    <div class="mt-4 flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-200 tracking-wider uppercase">Company</h3>
+                    <div class="mt-4 space-y-4">
+                        <a href="#about" class="text-base text-gray-300 hover:text-white block">About</a>
+                        <a href="#" class="text-base text-gray-300 hover:text-white block">Careers</a>
+                        <a href="#" class="text-base text-gray-300 hover:text-white block">Blog</a>
+                        <a href="#" class="text-base text-gray-300 hover:text-white block">Press</a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-200 tracking-wider uppercase">Legal</h3>
+                    <div class="mt-4 space-y-4">
+                        <a href="#" class="text-base text-gray-300 hover:text-white block">Privacy</a>
+                        <a href="#" class="text-base text-gray-300 hover:text-white block">Terms</a>
+                        <a href="#" class="text-base text-gray-300 hover:text-white block">Cookie Policy</a>
+                        <a href="#" class="text-base text-gray-300 hover:text-white block">GDPR</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between">
+                <p class="text-gray-400 text-sm text-center md:text-left">
+                    &copy; 2023 Moxo. All rights reserved.
+                </p>
+                <div class="mt-4 md:mt-0 flex justify-center md:justify-end space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Security</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">FAQ</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed z-50 inset-0 overflow-y-auto hidden">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-2xl leading-6 font-bold text-gray-900">Login to Moxo</h3>
+                                <button onclick="closeModal('login-modal')" class="text-gray-400 hover:text-gray-500">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="mt-6">
+                                <form class="space-y-6">
+                                    <div>
+                                        <label for="login-email" class="block text-sm font-medium text-gray-700">Email address</label>
+                                        <div class="mt-1">
+                                            <input id="login-email" name="email" type="email" autocomplete="email" required class="input-field py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="login-password" class="block text-sm font-medium text-gray-700">Password</label>
+                                        <div class="mt-1">
+                                            <input id="login-password" name="password" type="password" autocomplete="current-password" required class="input-field py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                            <label for="remember-me" class="ml-2 block text-sm text-gray-900">Remember me</label>
+                                        </div>
+                                        <div class="text-sm">
+                                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Forgot your password?</a>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300">
+                                            Sign in
+                                        </button>
+                                    </div>
+                                </form>
+                                <div class="mt-6">
+                                    <div class="relative">
+                                        <div class="absolute inset-0 flex items-center">
+                                            <div class="w-full border-t border-gray-300"></div>
+                                        </div>
+                                        <div class="relative flex justify-center text-sm">
+                                            <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6 grid grid-cols-3 gap-3">
+                                        <div>
+                                            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                                <i class="fab fa-facebook-f text-blue-600"></i>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                                <i class="fab fa-google text-red-600"></i>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                                <i class="fab fa-twitter text-blue-400"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-6 text-center">
+                                    <p class="text-sm text-gray-600">
+                                        Don't have an account? 
+                                        <button onclick="switchToSignup()" class="font-medium text-indigo-600 hover:text-indigo-500">Sign up</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signup-modal" class="fixed z-50 inset-0 overflow-y-auto hidden">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-2xl leading-6 font-bold text-gray-900">Create your Moxo account</h3>
+                                <button onclick="closeModal('signup-modal')" class="text-gray-400 hover:text-gray-500">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="mt-6">
+                                <form class="space-y-6">
+                                    <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+                                        <div>
+                                            <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
+                                            <div class="mt-1">
+                                                <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="input-field py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
+                                            <div class="mt-1">
+                                                <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="input-field py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="signup-email" class="block text-sm font-medium text-gray-700">Email address</label>
+                                        <div class="mt-1">
+                                            <input id="signup-email" name="email" type="email" autocomplete="email" required class="input-field py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label>
+                                        <div class="mt-1">
+                                            <input id="signup-password" name="password" type="password" autocomplete="new-password" required class="input-field py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                                        </div>
+                                        <p class="mt-2 text-sm text-gray-500">Must be at least 8 characters</p>
+                                    </div>
+                                    <div>
+                                        <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                                        <div class="mt-1">
+                                            <input id="confirm-password" name="confirm-password" type="password" autocomplete="new-password" required class="input-field py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="terms" name="terms" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" required>
+                                        </div>
+                                        <div class="ml-3 text-sm">
+                                            <label for="terms" class="font-medium text-gray-700">I agree to the</label>
+                                            <span class="text-gray-500"> </span>
+                                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Terms & Conditions</a>
+                                            <span class="text-gray-500"> and </span>
+                                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Privacy Policy</a>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300">
+                                            Create Account
+                                        </button>
+                                    </div>
+                                </form>
+                                <div class="mt-6">
+                                    <div class="relative">
+                                        <div class="absolute inset-0 flex items-center">
+                                            <div class="w-full border-t border-gray-300"></div>
+                                        </div>
+                                        <div class="relative flex justify-center text-sm">
+                                            <span class="px-2 bg-white text-gray-500">Or sign up with</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6 grid grid-cols-3 gap-3">
+                                        <div>
+                                            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                                <i class="fab fa-facebook-f text-blue-600"></i>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                                <i class="fab fa-google text-red-600"></i>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                                <i class="fab fa-twitter text-blue-400"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-6 text-center">
+                                    <p class="text-sm text-gray-600">
+                                        Already have an account? 
+                                        <button onclick="switchToLogin()" class="font-medium text-indigo-600 hover:text-indigo-500">Sign in</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function switchToSignup() {
+            closeModal('login-modal');
+            openModal('signup-modal');
+        }
+
+        function switchToLogin() {
+            closeModal('signup-modal');
+            openModal('login-modal');
+        }
+
+        // Scroll to section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('fixed') && event.target.classList.contains('inset-0')) {
+                document.querySelectorAll('.fixed.inset-0').forEach(modal => {
+                    if (!modal.classList.contains('hidden')) {
+                        const modalId = modal.parentElement.id;
+                        closeModal(modalId);
+                    }
+                });
+            }
+        }
+
+        // Scroll animation
+        function checkScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Initialize scroll animation
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('load', checkScroll);
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
